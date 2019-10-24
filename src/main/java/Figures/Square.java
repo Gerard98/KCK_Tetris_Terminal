@@ -20,19 +20,6 @@ public class Square extends Figure {
 
     }
 
-    public void printNodeToBoard(Node node){
-        Point point = node.getPointOnBoard();
-        for(int i=0;i<3;i++){
-            CommandLine.getInstance().putChar(point.getX()+i,point.getY(),node.getBody(i));
-        }
-    }
-
-    public void deleteNodeFromBoard(Node node){
-        Point point = node.getPointOnBoard();
-        for(int i=0;i<3;i++){
-            CommandLine.getInstance().putChar(point.getX()+i,point.getY(),' ');
-        }
-    }
 
     public void setStartPosition(){
         // Odwróciłem tutaj aby najpierw się dodały te niższe kwadraty by przy odczytywaniu z listy żeby
@@ -48,6 +35,7 @@ public class Square extends Figure {
         }
     }
 
+
     public boolean checkDownFloorIsFree(){
         return true;
     }
@@ -61,7 +49,6 @@ public class Square extends Figure {
 
         });
     }
-
 
 
 }

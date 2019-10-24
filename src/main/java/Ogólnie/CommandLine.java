@@ -27,6 +27,10 @@ public class CommandLine {
      *
      * No i dodałem plasę Point która po prostu trzyma x i y
      *
+     * Node to po prostu klasa 1 kwadratu czyli [x] która trzyma współrzędne tego kwadratu na obu planszach
+     *
+     * Myślę że metody takie jak goDown czy checkDownFloor by mogły być w Figure ale trzeba ogarnąć aby ta lista była w Figure a nie w Square
+     *
      * Pozdrawiam
      * Gercio Pierdzio
      */
