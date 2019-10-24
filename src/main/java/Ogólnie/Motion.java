@@ -18,15 +18,14 @@ public class Motion implements Runnable{
             figure = new Square();
             stop = false;
 
-
-
             while(!stop){
 
-                if(figure.checkDownFloorIsFree()){
+                try{
+                    TimeUnit.SECONDS.sleep(1);
+                }catch (InterruptedException ex){ex.printStackTrace();}
+
+                if(figure.checkDownFloorIsFree()) {
                     figure.goDown();
-                    try{
-                        TimeUnit.SECONDS.sleep(5);
-                    }catch (InterruptedException ex){ex.printStackTrace();}
                 }
                 else{
                     stop = true;

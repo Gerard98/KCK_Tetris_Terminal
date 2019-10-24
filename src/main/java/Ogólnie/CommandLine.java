@@ -15,14 +15,55 @@ public class CommandLine {
 
     private final String LEVEL = "Level:";
     private final String SCORE = "Score:";
-    private final int GAME_BOARD_HEIGHT = 22;
-    private final int GAME_BOARD_WIDTH = 64;
+    public static final int BOARD_HEIGHT = 22;
+    public static final int BOARD_WIDTH = 64;
 
+    /**
+     * Dodałem to aby mieć 2 współrzędne, 1 do jakby wypisywania znaków w konsoli
+     * a druga właśnie ta intowa aby sprawdzać czy jest jakiś klocek niżej czy z boku
+     * myślę że tak będzie lepiej bo nie będziemy musieli się jebać z tymi potrójnymi współrzędnymi
+     *
+     * Zmieniłem też nazwę tego pola GAME_BOARD_HEIGHT na GAME_BOARD aby sie nie jebaly pozniej te plansze
+     *
+     * No i dodałem plasę Point która po prostu trzyma x i y
+     *
+     * Pozdrawiam
+     * Gercio Pierdzio
+     */
+
+
+    private static int[][] gameBoard = {
+            { 1,1,1,1,1,1,1,1,1,1,1,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,0,0,0,0,0,0,0,0,0,0,1},
+            { 1,1,1,1,1,1,1,1,1,1,1,1},
+    };
 
     private int level;
     private int score;
 
-    private char[][] gameBoard;
+
+
+
+    private char[][] board;
     private TextGraphics textGraphics;
     private Terminal terminal;
     private Screen screen;
@@ -36,7 +77,7 @@ public class CommandLine {
 
             //terminal.addResizeListener(new MyResizeListener(terminal.getTerminalSize()));
 
-            gameBoard = new char[GAME_BOARD_HEIGHT][GAME_BOARD_WIDTH];
+            board = new char[BOARD_HEIGHT][BOARD_WIDTH];
             screen.startScreen();
             loadGameBoardFromFile();
             printScoreBoard();
@@ -89,9 +130,9 @@ public class CommandLine {
 
     public void printGameWindow(){
 
-        for(int i=0;i<GAME_BOARD_HEIGHT;i++){
-            for(int j=0;j<GAME_BOARD_WIDTH;j++){
-                putChar(j,i+2,gameBoard[i][j]);
+        for(int i = 0; i< BOARD_HEIGHT; i++){
+            for(int j = 0; j< BOARD_WIDTH; j++){
+                putChar(j,i+2, board[i][j]);
 
             }
         }
@@ -108,11 +149,11 @@ public class CommandLine {
 
             Scanner sc = new Scanner(new File("gameBoard.txt"));
             String lane;
-            for(int i=0;i<GAME_BOARD_HEIGHT;i++){
+            for(int i = 0; i< BOARD_HEIGHT; i++){
                 lane = sc.nextLine();
                 System.out.println(lane);
-                for(int j=0;j<GAME_BOARD_WIDTH;j++){
-                    gameBoard[i][j] = lane.charAt(j);
+                for(int j = 0; j< BOARD_WIDTH; j++){
+                    board[i][j] = lane.charAt(j);
                     //putChar(j,i+2,gameBoard[i][j]);
                 }
             }

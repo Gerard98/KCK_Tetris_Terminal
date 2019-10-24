@@ -2,8 +2,8 @@ package Figures;
 
 public abstract class Figure {
 
-    public void goDown(){};
-    public boolean checkDownFloorIsFree(){ return true; };
+    public abstract void goDown();
+    public abstract boolean checkDownFloorIsFree();
 
 
 }
