@@ -62,6 +62,30 @@ public class Square extends Figure {
         });
     }
 
+    public void goRight(){
+        figure.forEach(m -> {
+            Point pointOnBoard = m.getPointOnBoard();
+            Point pointOnGameBoard = m.getPointOnBoardGame();
+            deleteNodeFromBoard(m);
+            pointOnGameBoard.setX(pointOnGameBoard.getX()+1);
+            pointOnBoard.setX(pointOnBoard.getX()+3);
+            printNodeToBoard(m);
+
+        });
+    }
+
+    public void goLeft(){
+        figure.forEach(m -> {
+            Point pointOnBoard = m.getPointOnBoard();
+            Point pointOnGameBoard = m.getPointOnBoardGame();
+            deleteNodeFromBoard(m);
+            pointOnGameBoard.setX(pointOnGameBoard.getX()-1);
+            pointOnBoard.setX(pointOnBoard.getX()-3);
+            printNodeToBoard(m);
+
+        });
+    }
+
     /**
      * Funkcja ustawia wartosci w tablicy gameBoard na 1 w miejsca gdzie spadla figura
      */

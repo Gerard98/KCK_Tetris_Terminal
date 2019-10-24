@@ -1,5 +1,6 @@
 package Ogólnie;
 
+import Figures.Figure;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.gui2.BasicWindow;
@@ -37,6 +38,16 @@ public class CommandLine {
      * Gercio Pierdzio
      */
 
+
+    private volatile Figure figure;
+
+    public Figure getFigure() {
+        return figure;
+    }
+
+    public void setFigure(Figure figure) {
+        this.figure = figure;
+    }
 
     private static int[][] gameBoard = {
             { 1,1,1,1,1,1,1,1,1,1,1,1},
@@ -79,6 +90,7 @@ public class CommandLine {
             terminal = new DefaultTerminalFactory().createTerminal();
             screen = new TerminalScreen(terminal);
             textGraphics = screen.newTextGraphics();
+
 
             //terminal.addResizeListener(new MyResizeListener(terminal.getTerminalSize()));
 
@@ -194,5 +206,13 @@ public class CommandLine {
         gameBoard[y][x] = value;
     }
 
+    public KeyStroke getKeyPressed(){
+        try {
+            return terminal.pollInput();
+        }catch (IOException ex){
+            System.out.print("There is problem with key input");
+        }
+        return null;
+    }
 
 }

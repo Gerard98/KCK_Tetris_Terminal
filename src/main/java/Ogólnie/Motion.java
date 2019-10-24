@@ -2,12 +2,13 @@ package Ogólnie;
 
 import Figures.Figure;
 import Figures.Square;
+import com.googlecode.lanterna.input.KeyStroke;
 
 import java.util.concurrent.TimeUnit;
 
-public class Motion implements Runnable{
+public class Motion extends Thread{
 
-    private Figure figure;
+
     private Boolean stop;
 
     @Override
@@ -15,7 +16,8 @@ public class Motion implements Runnable{
 
         while(true){
 
-            figure = new Square();
+            CommandLine.getInstance().setFigure(new Square());
+            Figure figure = CommandLine.getInstance().getFigure();
             stop = false;
 
             while(!stop){

@@ -8,6 +8,8 @@ public abstract class Figure {
     public abstract void goDown();
     public abstract boolean checkDownFloorIsFree();
     public abstract void setNewGameBoardPoints();
+    public abstract void goLeft();
+    public abstract void goRight();
 
     public void printNodeToBoard(Node node){
         Point point = node.getPointOnBoard();
