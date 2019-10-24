@@ -7,6 +7,7 @@ public abstract class Figure {
 
     public abstract void goDown();
     public abstract boolean checkDownFloorIsFree();
+    public abstract void setNewGameBoardPoints();
 
     public void printNodeToBoard(Node node){
         Point point = node.getPointOnBoard();
@@ -21,6 +22,9 @@ public abstract class Figure {
             CommandLine.getInstance().putChar(point.getX()+i,point.getY(),' ');
         }
     }
+
+
+
 
 
 }

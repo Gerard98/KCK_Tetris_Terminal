@@ -2,6 +2,8 @@ package Ogólnie;
 
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.gui2.BasicWindow;
+import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.*;
@@ -64,14 +66,13 @@ public class CommandLine {
     private int level;
     private int score;
 
-
-
-
     private char[][] board;
     private TextGraphics textGraphics;
     private Terminal terminal;
     private Screen screen;
     private static CommandLine commandLine = new CommandLine();
+
+    private KeyStroke keyStroke;
 
     private CommandLine() {
         try {
@@ -81,12 +82,15 @@ public class CommandLine {
 
             //terminal.addResizeListener(new MyResizeListener(terminal.getTerminalSize()));
 
+
             board = new char[BOARD_HEIGHT][BOARD_WIDTH];
             screen.startScreen();
             loadGameBoardFromFile();
             printScoreBoard();
             printGameWindow();
             refresh();
+
+            // Create window to hold the panel
 
 
 
@@ -181,5 +185,14 @@ public class CommandLine {
             CommandLine.getInstance().refresh();
         }
     }
+
+    public int[][] getGameBoard(){
+        return gameBoard;
+    }
+
+    public void changeValueOfGameBoard(int x, int y, int value){
+        gameBoard[y][x] = value;
+    }
+
 
 }

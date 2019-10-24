@@ -28,12 +28,10 @@ public class Motion implements Runnable{
                     figure.goDown();
                 }
                 else{
+                    figure.setNewGameBoardPoints();
                     stop = true;
                 }
                 CommandLine.getInstance().refresh();
-
-
-
 
             }
 
