@@ -17,17 +17,11 @@ public abstract class Figure {
     }
 
     public void printNodeToBoard(Node node){
-        Point point = node.getPointOnBoard();
-        for(int i=0;i<3;i++){
-            CommandLine.getInstance().putChar(point.getX()+i,point.getY(),node.getBody(i));
-        }
+        CommandLine.getInstance().printNodeToBoard(node);
     }
 
     public void deleteNodeFromBoard(Node node){
-        Point point = node.getPointOnBoard();
-        for(int i=0;i<3;i++){
-            CommandLine.getInstance().putChar(point.getX()+i,point.getY(),' ');
-        }
+        CommandLine.getInstance().deleteNodeFromBoard(node);
     }
 
     public List<Node> getFigure() {
@@ -47,7 +41,7 @@ public abstract class Figure {
             int[][] gameBoard = CommandLine.getInstance().getGameBoard();
             Point point = m.getPointOnBoardGame();
 
-            return gameBoard[point.getY()-1][point.getX()] == 1;
+            return gameBoard[point.getY()+1][point.getX()] == 1;
 
         });
 

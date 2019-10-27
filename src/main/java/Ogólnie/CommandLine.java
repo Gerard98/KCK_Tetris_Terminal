@@ -1,6 +1,8 @@
 package Ogólnie;
 
 import Figures.Figure;
+import Figures.Node;
+import Positions.Point;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.gui2.BasicWindow;
@@ -12,6 +14,7 @@ import com.googlecode.lanterna.terminal.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -42,7 +45,7 @@ public class CommandLine {
      * Gercio Pierdzio
      */
 
-    private List<Figure> figures;
+    private List<Node> nodes;
 
     private volatile Figure figure;
 
@@ -51,7 +54,11 @@ public class CommandLine {
     }
 
     public void setFigure(Figure figure) {
+
+        nodes.addAll(figure.getFigure());
+
         this.figure = figure;
+
     }
 
     private static int[][] gameBoard = {
@@ -95,6 +102,7 @@ public class CommandLine {
             terminal = new DefaultTerminalFactory().createTerminal();
             screen = new TerminalScreen(terminal);
             textGraphics = screen.newTextGraphics();
+            nodes = new LinkedList<>();
 
 
             //terminal.addResizeListener(new MyResizeListener(terminal.getTerminalSize()));
@@ -226,7 +234,7 @@ public class CommandLine {
     public void checkForDeleteLane(){
 
         boolean rowDeleted = false;
-        for(int i=1;i<GAME_BOARD_HEIGHT;i++){
+        for(int i=1;i<GAME_BOARD_HEIGHT-1;i++){
             for(int j=1;j<GAME_BOARD_WIDTH;j++){
                 if(gameBoard[i][j] == 0){
                     break;
@@ -245,8 +253,28 @@ public class CommandLine {
     }
 
     public void deleteLane(int lane){
-        
 
+        nodes.forEach(m -> {
+            if(m.getPointOnBoardGame().getY() == lane){
+                deleteNodeFromBoard(m);
+                nodes.remove(m);
+            }
+        });
+
+    }
+
+    public void printNodeToBoard(Node node){
+        Point point = node.getPointOnBoard();
+        for(int i=0;i<3;i++){
+            putChar(point.getX()+i,point.getY(),node.getBody(i));
+        }
+    }
+
+    public void deleteNodeFromBoard(Node node){
+        Point point = node.getPointOnBoard();
+        for(int i=0;i<3;i++){
+            putChar(point.getX()+i,point.getY(),' ');
+        }
     }
 
 }

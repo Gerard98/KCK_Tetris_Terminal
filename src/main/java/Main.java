@@ -12,8 +12,5 @@ public class Main {
         keyListener.start();
     }
 
-    public void chuj(){
-
-    }
 
 }

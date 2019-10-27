@@ -31,8 +31,8 @@ public class Motion extends Thread{
                     figure.goDown();
                 }
                 else{
-                    CommandLine.getInstance().checkForDeleteLane();
                     figure.setNewGameBoardPoints();
+                    CommandLine.getInstance().checkForDeleteLane();
                     stop = true;
                 }
                 CommandLine.getInstance().refresh();
