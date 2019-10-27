@@ -12,6 +12,7 @@ import com.googlecode.lanterna.terminal.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 public class CommandLine {
@@ -20,6 +21,9 @@ public class CommandLine {
     private final String SCORE = "Score:";
     public static final int BOARD_HEIGHT = 22;
     public static final int BOARD_WIDTH = 64;
+
+    public static final int GAME_BOARD_HEIGHT = 22;
+    public static final int GAME_BOARD_WIDTH = 12;
 
     /**
      * Dodałem to aby mieć 2 współrzędne, 1 do jakby wypisywania znaków w konsoli
@@ -38,6 +42,7 @@ public class CommandLine {
      * Gercio Pierdzio
      */
 
+    private List<Figure> figures;
 
     private volatile Figure figure;
 
@@ -213,6 +218,35 @@ public class CommandLine {
             System.out.print("There is problem with key input");
         }
         return null;
+    }
+
+    /**
+     * Metoda sprawdza czy jest jakas linia do usunięcia i ją usuwa jeśli tak
+     */
+    public void checkForDeleteLane(){
+
+        boolean rowDeleted = false;
+        for(int i=1;i<GAME_BOARD_HEIGHT;i++){
+            for(int j=1;j<GAME_BOARD_WIDTH;j++){
+                if(gameBoard[i][j] == 0){
+                    break;
+                }
+                if(j == GAME_BOARD_WIDTH - 1){
+                    deleteLane(i);
+                    rowDeleted = true;
+                    break;
+                }
+            }
+            if(rowDeleted) break;
+        }
+
+        if(rowDeleted)checkForDeleteLane();
+
+    }
+
+    public void deleteLane(int lane){
+        
+
     }
 
 }

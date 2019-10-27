@@ -23,13 +23,15 @@ public class Motion extends Thread{
             while(!stop){
 
                 try{
-                    TimeUnit.SECONDS.sleep(1);
+                    TimeUnit.MILLISECONDS.sleep(500);
+                    //TimeUnit.SECONDS.sleep(1);
                 }catch (InterruptedException ex){ex.printStackTrace();}
 
                 if(figure.checkDownFloorIsFree()) {
                     figure.goDown();
                 }
                 else{
+                    CommandLine.getInstance().checkForDeleteLane();
                     figure.setNewGameBoardPoints();
                     stop = true;
                 }
