@@ -337,20 +337,14 @@ public class CommandLine {
 
     public synchronized void printNodeToBoard(Node node){
         Point point = node.getPointOnBoard();
-        for(int i=0;i<3;i++){
-            putChar(point.getX()+i,point.getY(),node.getBody(i));
-            refresh();
-        }
-        //refresh();
+        putString(point.getX(),point.getY(),node.toString());
+        refresh();
     }
 
     public synchronized void deleteNodeFromBoard(Node node){
         Point point = node.getPointOnBoard();
-        for(int i=0;i<3;i++){
-            putChar(point.getX()+i,point.getY(),' ');
-            refresh();
-        }
-        //refresh();
+        putString(point.getX(),point.getY(),"   ");
+        refresh();
     }
 
     public int getMinY(){

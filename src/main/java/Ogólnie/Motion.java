@@ -54,6 +54,7 @@ public class Motion extends Thread{
                     else {
                         endGame = true;
                         thread.interrupt();
+                        this.interrupt();
                         CommandLine.getInstance().printEndScreen();
                     }
                 }

@@ -69,4 +69,9 @@ public class Node {
         CommandLine.getInstance().printNodeToBoard(this);
     }
 
+    @Override
+    public String toString(){
+        return String.valueOf(body);
+    }
+
 }
