@@ -38,8 +38,10 @@ public class Node {
     }
 
     public void goDown(){
+        CommandLine.getInstance().deleteNodeFromBoard(this);
         pointOnBoard.setY(pointOnBoard.getY()+1);
         pointOnBoardGame.setY(pointOnBoardGame.getY()+1);
+        CommandLine.getInstance().printNodeToBoard(this);
     }
 
     public int getYFromPointOfBoardGame(){
@@ -49,6 +51,21 @@ public class Node {
     public void goUpInQuene(){
         CommandLine.getInstance().deleteNodeFromBoard(this);
         pointOnBoard.setY(pointOnBoard.getY()-4);
+        CommandLine.getInstance().printNodeToBoard(this);
+    }
+
+    public void relocateBothPoints(int x, int y){
+        this.relocateBoardPoint(x,y);
+        this.relocateGameBoardPoint(x,y);
+    }
+
+    public void relocateGameBoardPoint(int x, int y){
+        this.getPointOnBoardGame().relocate(x,y);
+    }
+
+    public void relocateBoardPoint(int x, int y){
+        CommandLine.getInstance().deleteNodeFromBoard(this);
+        this.getPointOnBoard().relocate(x*3,y);
         CommandLine.getInstance().printNodeToBoard(this);
     }
 

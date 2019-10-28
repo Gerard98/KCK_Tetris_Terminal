@@ -86,9 +86,9 @@ public class CommandLine {
             { 1,0,0,0,0,0,0,0,0,0,0,1},
             { 1,1,1,1,1,1,1,1,1,1,1,1},
     };
-
-    private int level;
-    private int score;
+    private int lanesDeleted = 0;
+    private int level = 1;
+    private int score = 0;
 
     private char[][] board;
     private TextGraphics textGraphics;
@@ -127,7 +127,7 @@ public class CommandLine {
 
     public void setFirstQuene(){
         for(int i=1;i<4;i++){
-            Figure figure = new Lane();
+            Figure figure = RandomFigure.getRandomFigure();
             queueOfFigures.add(figure);
             for(int j=3;j>i;j--){
                 figure.goUpInQuene();
@@ -145,8 +145,7 @@ public class CommandLine {
         });
 
         nodes.addAll(figure.getFigure());
-
-        Figure newFigure = new Lane();
+        Figure newFigure = RandomFigure.getRandomFigure();
         queueOfFigures.add(newFigure);
 
         this.figure = figure;
@@ -271,12 +270,17 @@ public class CommandLine {
                     break;
                 }
             }
-            if(rowDeleted) break;
+            if(rowDeleted) {
+                break;
+            }
         }
 
-        if(rowDeleted)checkForDeleteLane();
+        if(rowDeleted){
+            checkForDeleteLane();
+        }
 
     }
+
 
     public void deleteLane(int lane){
 
@@ -306,8 +310,14 @@ public class CommandLine {
                 }
             }
         }
+        score += 50;
+        lanesDeleted +=1;
 
-        printGameBoard();
+        if(score/1000 > level && level < 20) {
+            level++;
+        }
+
+        printScoreBoard();
 
     }
 
@@ -349,6 +359,46 @@ public class CommandLine {
 
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 
 
+    public void printEndScreen(){
+        System.out.println("END GAME");
+        clearGameScreen();
+        String gameOver = "GAME OVER";
+        String gameScore = "Zdobyłeś: " + score + " pkt ";
+        putString(10,5,gameOver);
+        putString(10,6,gameScore);
+    }
+
+    public void clearGameScreen(){
+        for(int i=3;i<GAME_BOARD_HEIGHT+1;i++){
+            for(int j=4;j<GAME_BOARD_WIDTH*3-3;j++){
+                putChar(j,i,' ');
+            }
+        }
+        clearQueueScreen();
+    }
+
+    public void clearQueueScreen(){
+        for(int i=7;i<19;i++){
+            for(int j=43;j<61;j++){
+                putChar(j,i,' ');
+            }
+        }
+    }
 }

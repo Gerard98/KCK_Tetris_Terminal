@@ -9,15 +9,16 @@ import java.util.concurrent.TimeUnit;
 public class Motion extends Thread{
 
 
-    private Boolean stop;
+    private boolean stop;
+    private boolean endGame;
 
     @Override
     public void run() {
 
         CommandLine.getInstance().setFirstQuene();
         CommandLine.getInstance().addNewFigure();
-
-        while(true){
+        endGame = false;
+        while(!endGame){
 
             Figure figure = CommandLine.getInstance().getFigure();
             stop = false;
@@ -25,8 +26,8 @@ public class Motion extends Thread{
             while(!stop){
 
                 try{
-                    TimeUnit.MILLISECONDS.sleep(1000);
-                    //TimeUnit.SECONDS.sleep(1);
+                    //TimeUnit.MILLISECONDS.sleep(1050 - CommandLine.getInstance().getLevel()*50);
+                    TimeUnit.MILLISECONDS.sleep(100);
                 }catch (InterruptedException ex){ex.printStackTrace();}
 
                 if(figure.checkDownFloorIsFree()) {
@@ -35,13 +36,16 @@ public class Motion extends Thread{
                 else{
                     figure.setNewGameBoardPoints();
                     CommandLine.getInstance().checkForDeleteLane();
-                    //CommandLine.getInstance().setFigure(new Square());
-                    CommandLine.getInstance().addNewFigure();
                     stop = true;
+                    if(!figure.checkForEndGame()) {
+                        CommandLine.getInstance().addNewFigure();
+                    }
+                    else {
+                        endGame = true;
+                        CommandLine.getInstance().printEndScreen();
+                    }
                 }
                 CommandLine.getInstance().refresh();
-
-
 
             }
             CommandLine.getInstance().printGameBoard();
