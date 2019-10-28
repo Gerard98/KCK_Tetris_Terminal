@@ -29,6 +29,9 @@ public class KeyListener extends Thread {
                         case ArrowDown:
                             figure.goToFloor();
                             break;
+                        case F1:
+                            CommandLine.getInstance().start();
+                            break;
                     }
                 }
             }

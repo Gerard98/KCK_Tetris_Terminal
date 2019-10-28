@@ -26,6 +26,10 @@ public class Motion extends Thread{
     @Override
     public void run() {
 
+        while(!CommandLine.getInstance().getStart()){
+
+        }
+
         CommandLine.getInstance().setFirstQuene();
         CommandLine.getInstance().addNewFigure();
         endGame = false;
@@ -37,8 +41,8 @@ public class Motion extends Thread{
             while(!stop){
 
                 try{
-                    //TimeUnit.MILLISECONDS.sleep(1050 - CommandLine.getInstance().getLevel()*50);
-                    TimeUnit.MILLISECONDS.sleep(500);
+                    TimeUnit.MILLISECONDS.sleep(1050 - CommandLine.getInstance().getLevel()*50);
+                    //TimeUnit.MILLISECONDS.sleep(500);
                 }catch (InterruptedException ex){ex.printStackTrace();}
 
                 if(figure.checkDownFloorIsFree()) {

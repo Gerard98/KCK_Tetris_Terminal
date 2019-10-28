@@ -63,6 +63,11 @@ public class CommandLine {
 
     }
 
+    public volatile boolean start = false;
+
+    public boolean getStart(){ return start;}
+    public void start(){start = true;}
+
     private static int[][] gameBoard = {
             { 1,1,1,1,1,1,1,1,1,1,1,1},
             { 1,0,0,0,0,0,0,0,0,0,0,1},
@@ -128,6 +133,9 @@ public class CommandLine {
     }
 
     public void setFirstQuene(){
+
+        putString(8,6,"                   ");
+
         for(int i=1;i<4;i++){
             Figure figure = RandomFigure.getRandomFigure();
             //Figure figure = new TShapeFigure();
@@ -301,7 +309,7 @@ public class CommandLine {
             gameBoard[lane][i] = 0;
         }
 
-        for (int i = lane; i >= getMinY(); i--) {
+        for (int i = lane + 1; i >= getMinY(); i--) {
             for (Node node : nodes) {
                 int y = node.getPointOnBoardGame().getY();
                 int x = node.getPointOnBoardGame().getX();
