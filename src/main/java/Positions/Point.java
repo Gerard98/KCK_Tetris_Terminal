@@ -2,8 +2,8 @@ package Positions;
 
 public class Point {
 
-    private int x;
-    private int y;
+    private volatile int x;
+    private volatile int y;
 
     public Point(int x, int y) {
         this.x = x;

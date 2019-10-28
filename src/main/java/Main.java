@@ -1,14 +1,13 @@
 import Ogólnie.KeyListener;
 import Ogólnie.Motion;
 
-import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args){
         Motion motion = new Motion();
         KeyListener keyListener = new KeyListener();
-        motion.start();
+        motion.start(keyListener);
         keyListener.start();
     }
 

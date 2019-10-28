@@ -180,5 +180,11 @@ public abstract class Figure {
 
     }
 
+    public void goToFloor(){
+        while(checkDownFloorIsFree()){
+            goDown();
+        }
+    }
+
 
 }

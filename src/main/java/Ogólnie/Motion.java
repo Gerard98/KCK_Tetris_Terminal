@@ -11,6 +11,17 @@ public class Motion extends Thread{
 
     private boolean stop;
     private boolean endGame;
+    private Thread thread;
+
+    public synchronized void start(Thread thread){
+        this.thread = thread;
+        start();
+    }
+
+    @Override
+    public synchronized void start() {
+        super.start();
+    }
 
     @Override
     public void run() {
@@ -27,7 +38,7 @@ public class Motion extends Thread{
 
                 try{
                     //TimeUnit.MILLISECONDS.sleep(1050 - CommandLine.getInstance().getLevel()*50);
-                    TimeUnit.MILLISECONDS.sleep(100);
+                    TimeUnit.MILLISECONDS.sleep(500);
                 }catch (InterruptedException ex){ex.printStackTrace();}
 
                 if(figure.checkDownFloorIsFree()) {
@@ -42,6 +53,7 @@ public class Motion extends Thread{
                     }
                     else {
                         endGame = true;
+                        thread.interrupt();
                         CommandLine.getInstance().printEndScreen();
                     }
                 }

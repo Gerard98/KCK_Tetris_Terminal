@@ -12,24 +12,26 @@ public class KeyListener extends Thread {
 
     @Override
     public void run() {
-
-        while(true) {
-            keyPressed = CommandLine.getInstance().getKeyPressed();
-            if(keyPressed != null) {
-                Figure figure = CommandLine.getInstance().getFigure();
-                switch (keyPressed.getKeyType()){
-                    case ArrowRight:
-                        figure.goRight();
-                        break;
-                    case ArrowLeft:
-                        figure.goLeft();
-                        break;
-                    case ArrowUp:
-                        figure.rotate();
-                        break;
+            while (!interrupted()) {
+                keyPressed = CommandLine.getInstance().getKeyPressed();
+                if (keyPressed != null) {
+                    Figure figure = CommandLine.getInstance().getFigure();
+                    switch (keyPressed.getKeyType()) {
+                        case ArrowRight:
+                            figure.goRight();
+                            break;
+                        case ArrowLeft:
+                            figure.goLeft();
+                            break;
+                        case ArrowUp:
+                            figure.rotate();
+                            break;
+                        case ArrowDown:
+                            figure.goToFloor();
+                            break;
+                    }
                 }
             }
-        }
 
 
 

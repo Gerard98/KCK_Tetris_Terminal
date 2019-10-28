@@ -8,6 +8,7 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.*;
+import com.googlecode.lanterna.terminal.swing.TerminalEmulatorAutoCloseTrigger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -91,7 +92,7 @@ public class CommandLine {
     private int score = 0;
 
     private char[][] board;
-    private TextGraphics textGraphics;
+    private volatile TextGraphics textGraphics;
     private Terminal terminal;
     private Screen screen;
     private static CommandLine commandLine = new CommandLine();
@@ -100,7 +101,8 @@ public class CommandLine {
 
     private CommandLine() {
         try {
-            terminal = new DefaultTerminalFactory().createTerminal();
+            DefaultTerminalFactory def = new DefaultTerminalFactory();
+            terminal = def.createTerminal();
             screen = new TerminalScreen(terminal);
             textGraphics = screen.newTextGraphics();
             nodes = new LinkedList<>();
@@ -128,6 +130,7 @@ public class CommandLine {
     public void setFirstQuene(){
         for(int i=1;i<4;i++){
             Figure figure = RandomFigure.getRandomFigure();
+            //Figure figure = new TShapeFigure();
             queueOfFigures.add(figure);
             for(int j=3;j>i;j--){
                 figure.goUpInQuene();
@@ -146,6 +149,7 @@ public class CommandLine {
 
         nodes.addAll(figure.getFigure());
         Figure newFigure = RandomFigure.getRandomFigure();
+        //Figure newFigure = new TShapeFigure();
         queueOfFigures.add(newFigure);
 
         this.figure = figure;
@@ -160,7 +164,7 @@ public class CommandLine {
         return commandLine;
     }
 
-    public void putChar(int x, int y, char a){
+    public synchronized void putChar(int x, int y, char a){
         try {
             textGraphics.putString(x, y, String.valueOf(a));
             screen.refresh();
@@ -331,20 +335,22 @@ public class CommandLine {
         System.out.println("");
     }
 
-    public void printNodeToBoard(Node node){
+    public synchronized void printNodeToBoard(Node node){
         Point point = node.getPointOnBoard();
         for(int i=0;i<3;i++){
             putChar(point.getX()+i,point.getY(),node.getBody(i));
+            refresh();
         }
-        refresh();
+        //refresh();
     }
 
-    public void deleteNodeFromBoard(Node node){
+    public synchronized void deleteNodeFromBoard(Node node){
         Point point = node.getPointOnBoard();
         for(int i=0;i<3;i++){
             putChar(point.getX()+i,point.getY(),' ');
+            refresh();
         }
-        refresh();
+        //refresh();
     }
 
     public int getMinY(){
@@ -387,7 +393,7 @@ public class CommandLine {
 
     public void clearGameScreen(){
         for(int i=3;i<GAME_BOARD_HEIGHT+1;i++){
-            for(int j=4;j<GAME_BOARD_WIDTH*3-3;j++){
+            for(int j=3;j<GAME_BOARD_WIDTH*3-3;j++){
                 putChar(j,i,' ');
             }
         }
