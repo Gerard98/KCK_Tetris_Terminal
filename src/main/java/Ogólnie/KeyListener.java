@@ -19,12 +19,13 @@ public class KeyListener extends Thread {
                 Figure figure = CommandLine.getInstance().getFigure();
                 switch (keyPressed.getKeyType()){
                     case ArrowRight:
-                        System.out.print("PRAWO");
                         figure.goRight();
                         break;
                     case ArrowLeft:
-                        System.out.print("LEWO");
                         figure.goLeft();
+                        break;
+                    case ArrowUp:
+                        figure.rotate();
                         break;
                 }
             }

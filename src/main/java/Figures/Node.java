@@ -1,5 +1,6 @@
 package Figures;
 
+import Ogólnie.CommandLine;
 import Positions.Point;
 
 public class Node {
@@ -35,4 +36,20 @@ public class Node {
     public char getBody(int index){
         return body[index];
     }
+
+    public void goDown(){
+        pointOnBoard.setY(pointOnBoard.getY()+1);
+        pointOnBoardGame.setY(pointOnBoardGame.getY()+1);
+    }
+
+    public int getYFromPointOfBoardGame(){
+        return pointOnBoardGame.getY();
+    }
+
+    public void goUpInQuene(){
+        CommandLine.getInstance().deleteNodeFromBoard(this);
+        pointOnBoard.setY(pointOnBoard.getY()-4);
+        CommandLine.getInstance().printNodeToBoard(this);
+    }
+
 }

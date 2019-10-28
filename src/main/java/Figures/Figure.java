@@ -10,10 +10,16 @@ public abstract class Figure {
 
     private List<Node> figure;
 
-    public abstract void setNewGameBoardPoints();
+    public abstract void setPositionInQuene();
+    public abstract void setPositionToFall();
+    public abstract void rotate();
+
 
     public Figure(){
+
         figure = new LinkedList<>();
+        setPositionInQuene();
+
     }
 
     public void printNodeToBoard(Node node){
@@ -34,6 +40,14 @@ public abstract class Figure {
 
     public void addNode(Node node){
         figure.add(node);
+    }
+
+    public void setNewGameBoardPoints(){
+        getFigure().forEach(m -> {
+            Point point = m.getPointOnBoardGame();
+            CommandLine.getInstance().changeValueOfGameBoard(point.getX(), point.getY(), 1);
+
+        });
     }
 
     public boolean checkDownFloorIsFree(){
@@ -120,6 +134,12 @@ public abstract class Figure {
                 printNodeToBoard(m);
             });
         }
+    }
+
+    public void goUpInQuene(){
+        figure.forEach(m -> {
+            m.goUpInQuene();
+        });
     }
 
 }

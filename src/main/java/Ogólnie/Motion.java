@@ -14,16 +14,18 @@ public class Motion extends Thread{
     @Override
     public void run() {
 
+        CommandLine.getInstance().setFirstQuene();
+        CommandLine.getInstance().addNewFigure();
+
         while(true){
 
-            CommandLine.getInstance().setFigure(new Square());
             Figure figure = CommandLine.getInstance().getFigure();
             stop = false;
 
             while(!stop){
 
                 try{
-                    TimeUnit.MILLISECONDS.sleep(500);
+                    TimeUnit.MILLISECONDS.sleep(1000);
                     //TimeUnit.SECONDS.sleep(1);
                 }catch (InterruptedException ex){ex.printStackTrace();}
 
@@ -33,13 +35,16 @@ public class Motion extends Thread{
                 else{
                     figure.setNewGameBoardPoints();
                     CommandLine.getInstance().checkForDeleteLane();
+                    //CommandLine.getInstance().setFigure(new Square());
+                    CommandLine.getInstance().addNewFigure();
                     stop = true;
                 }
                 CommandLine.getInstance().refresh();
 
+
+
             }
-
-
+            CommandLine.getInstance().printGameBoard();
         }
 
     }

@@ -1,11 +1,9 @@
 package Ogólnie;
 
-import Figures.Figure;
-import Figures.Node;
+import Figures.*;
 import Positions.Point;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.graphics.TextGraphics;
-import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
@@ -14,9 +12,7 @@ import com.googlecode.lanterna.terminal.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class CommandLine {
 
@@ -45,9 +41,14 @@ public class CommandLine {
      * Gercio Pierdzio
      */
 
+    // przetrzymuje wszystkie części które są wypisane na ekranie
     private List<Node> nodes;
 
+    // Przetrzymuje aktualną figurę która spada
     private volatile Figure figure;
+
+    // Przetrzymuje figury które są następne
+    private Queue<Figure> queueOfFigures;
 
     public Figure getFigure() {
         return figure;
@@ -103,10 +104,9 @@ public class CommandLine {
             screen = new TerminalScreen(terminal);
             textGraphics = screen.newTextGraphics();
             nodes = new LinkedList<>();
-
-
+            queueOfFigures = new LinkedList<>();
+            //setFirstQuene();
             //terminal.addResizeListener(new MyResizeListener(terminal.getTerminalSize()));
-
 
             board = new char[BOARD_HEIGHT][BOARD_WIDTH];
             screen.startScreen();
@@ -123,6 +123,33 @@ public class CommandLine {
             System.out.print("There is problem with Terminal");
             ex.printStackTrace();
         }
+    }
+
+    public void setFirstQuene(){
+        for(int i=1;i<4;i++){
+            Figure figure = new Lane();
+            queueOfFigures.add(figure);
+            for(int j=3;j>i;j--){
+                figure.goUpInQuene();
+            }
+
+        }
+    }
+
+    public void addNewFigure(){
+        Figure figure = queueOfFigures.poll();
+        figure.setPositionToFall();
+
+        queueOfFigures.forEach(m -> {
+            m.goUpInQuene();
+        });
+
+        nodes.addAll(figure.getFigure());
+
+        Figure newFigure = new Lane();
+        queueOfFigures.add(newFigure);
+
+        this.figure = figure;
     }
 
 
@@ -184,7 +211,6 @@ public class CommandLine {
             String lane;
             for(int i = 0; i< BOARD_HEIGHT; i++){
                 lane = sc.nextLine();
-                System.out.println(lane);
                 for(int j = 0; j< BOARD_WIDTH; j++){
                     board[i][j] = lane.charAt(j);
                     //putChar(j,i+2,gameBoard[i][j]);
@@ -257,10 +283,42 @@ public class CommandLine {
         nodes.forEach(m -> {
             if(m.getPointOnBoardGame().getY() == lane){
                 deleteNodeFromBoard(m);
-                nodes.remove(m);
             }
         });
 
+        nodes.removeIf(m -> m.getPointOnBoardGame().getY() == lane);
+
+        // Ustawienie usuniętego rzędu na rząd pusty
+        for(int i=1;i<GAME_BOARD_WIDTH-1;i++){
+            gameBoard[lane][i] = 0;
+        }
+
+        for (int i = lane; i >= getMinY(); i--) {
+            for (Node node : nodes) {
+                int y = node.getPointOnBoardGame().getY();
+                int x = node.getPointOnBoardGame().getX();
+                if (y < lane && y == i) {
+                    deleteNodeFromBoard(node);
+                    gameBoard[y][x] = 0;
+                    gameBoard[y + 1][x] = 1;
+                    node.goDown();
+                    printNodeToBoard(node);
+                }
+            }
+        }
+
+        printGameBoard();
+
+    }
+
+    public void printGameBoard(){
+        for(int i=0;i<GAME_BOARD_HEIGHT;i++){
+            for(int j=0;j<GAME_BOARD_WIDTH; j++){
+                System.out.print(gameBoard[i][j]);
+            }
+            System.out.println("");
+        }
+        System.out.println("");
     }
 
     public void printNodeToBoard(Node node){
@@ -268,6 +326,7 @@ public class CommandLine {
         for(int i=0;i<3;i++){
             putChar(point.getX()+i,point.getY(),node.getBody(i));
         }
+        refresh();
     }
 
     public void deleteNodeFromBoard(Node node){
@@ -275,6 +334,21 @@ public class CommandLine {
         for(int i=0;i<3;i++){
             putChar(point.getX()+i,point.getY(),' ');
         }
+        refresh();
     }
+
+    public int getMinY(){
+        try{
+            Node node = nodes.stream().min(Comparator.comparing(Node::getYFromPointOfBoardGame)).get();
+            return node.getYFromPointOfBoardGame();
+        }
+        catch (NoSuchElementException ex){
+            return GAME_BOARD_HEIGHT;
+        }
+
+
+    }
+
+
 
 }

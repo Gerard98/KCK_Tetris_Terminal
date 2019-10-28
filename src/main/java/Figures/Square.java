@@ -7,49 +7,44 @@ import java.util.List;
 
 public class Square extends Figure {
 
+    @Override
+    public void setPositionToFall() {
+        int k = 0;
+        for(int i=0;i<2;i++){
+            for(int j=1;j>=0;j--){
+                Node node = getFigure().get(k);
 
-    public Square(){
-        super();
-        // Odwróciłem tutaj aby najpierw się dodały te niższe kwadraty by przy odczytywaniu z listy żeby
-        // najpierw one spadały, bo jak były najpierw te górne to się nakładały na siebie i zostawała 1 linia tylko
+                deleteNodeFromBoard(node);
+
+                node.setPointOnBoardGame(5+j,i+1);
+                node.setPointOnBoard(i*3+15, j+3);
+
+                printNodeToBoard(node);
+                k++;
+            }
+        }
+    }
+
+    @Override
+    public void setPositionInQuene() {
+
         for(int i=0;i<2;i++){
             for(int j=1;j>=0;j--){
                 Node node = new Node();
                 node.setPointOnBoardGame(5+j,i+1);
-                node.setPointOnBoard(i*3+15, j+3);
+                node.setPointOnBoard(i*3+49, 16+j);
 
                 addNode(node);
                 printNodeToBoard(node);
             }
         }
 
-        setStartPosition();
+
 
     }
 
-    public void setStartPosition(){
-        /**
-         *
-         *
-         *
-         */
-    }
+    public void rotate(){
 
-
-
-
-
-
-    /**
-     * Funkcja ustawia wartosci w tablicy gameBoard na 1 w miejsca gdzie spadla figura
-     */
-
-    public void setNewGameBoardPoints(){
-        getFigure().forEach(m -> {
-            Point point = m.getPointOnBoardGame();
-            CommandLine.getInstance().changeValueOfGameBoard(point.getX(), point.getY(), 1);
-
-        });
     }
 
 
